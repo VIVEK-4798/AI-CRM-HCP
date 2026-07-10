@@ -81,12 +81,6 @@ Rep Notes: {natural_language_message}
                 "status": "error",
                 "message": "Validation Error: Doctor name could not be identified."
             }
-        if not interaction_type_str:
-            return {
-                "status": "error",
-                "message": "Validation Error: Interaction type could not be identified."
-            }
-
         # Find HCP Doctor by name in database
         hcp = HCPService.get_hcp_by_name(db, doctor_name)
         if not hcp:
@@ -103,14 +97,13 @@ Rep Notes: {natural_language_message}
             except ValueError:
                 logger.warning(f"Malformed follow up date format: '{follow_up_date_str}', utilizing null.")
 
-        # Map interaction type
-        try:
-            interaction_type = InteractionType(interaction_type_str)
-        except ValueError:
-            return {
-                "status": "error",
-                "message": f"Validation Error: Invalid Interaction Type '{interaction_type_str}'."
-            }
+        # Map interaction type (defaults to IN_PERSON if missing or invalid)
+        interaction_type = InteractionType.IN_PERSON
+        if interaction_type_str:
+            try:
+                interaction_type = InteractionType(interaction_type_str)
+            except ValueError:
+                logger.warning(f"Invalid interaction type '{interaction_type_str}' returned by LLM, defaulting to IN_PERSON.")
 
         # Determine status
         status = InteractionStatus.FOLLOW_UP_PENDING if follow_up_date else InteractionStatus.COMPLETED

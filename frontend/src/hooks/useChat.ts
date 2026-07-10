@@ -64,11 +64,11 @@ export function useChat() {
       const errMsg = err.response?.data?.detail || err.message || "Unable to process interaction.";
       dispatch(setError(errMsg));
       
-      // Append failure reply from assistant
+      // Append failure reply from assistant displaying the actual error message
       const assistantMsg = {
         id: Date.now() + 1,
         sender: 'assistant' as const,
-        text: "Unable to process interaction. Please check doctor name/notes and try again.",
+        text: errMsg,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       dispatch(addMessage(assistantMsg));
