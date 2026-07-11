@@ -3,7 +3,6 @@ import time
 from typing import Dict, Any
 from app.agents.graph import app as graph_app
 
-# Configure logging trace for agent invoke telemetry
 logger = logging.getLogger(__name__)
 
 class CRMInteractionAgent:
@@ -28,7 +27,6 @@ class CRMInteractionAgent:
         start_time = time.time()
         logger.info(f"CRMInteractionAgent received input message: '{user_input}'")
 
-        # Set default state structure
         initial_state = {
             "user_input": user_input,
             "intent": "unknown",
