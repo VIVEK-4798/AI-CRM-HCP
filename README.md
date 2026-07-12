@@ -93,8 +93,7 @@ ai-crm-hcp/
 │   └── vite.config.ts    # Vite configuration
 └── README.md             # Project documentation (this file)
 ```
-.....................
-.............
+
 ---
 
 ## ⚙️ Setup & Installation Instructions
